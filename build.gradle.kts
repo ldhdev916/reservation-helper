@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.7.20"
     `maven-publish`
+    signing
 }
 
 group = "com.ldhdev"
@@ -27,12 +28,21 @@ tasks {
 
 }
 
+java {
+    withSourcesJar()
+}
+
+signing {
+    sign(publishing.publications["maven"])
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            from(components["java"])
 
-            artifact(tasks.kotlinSourcesJar)
+            groupId = "com.github.ldhdev916"
+
+            from(components["java"])
         }
     }
 }
